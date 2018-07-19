@@ -20,6 +20,7 @@ class DataBaseHelper extends SQLiteOpenHelper {
 	// путь к базе данных вашего приложения
 	private static String DB_PATH ;
 	private static String DB_NAME = "company";
+	private static String InputDb = "company";
 	private SQLiteDatabase myDataBase;
 	private final Context mContext;
 
@@ -57,7 +58,7 @@ class DataBaseHelper extends SQLiteOpenHelper {
 				copyDataBase();
 			} catch (IOException e) {
 			    e.getStackTrace();
-				throw new Error("Error copying database");
+				throw new Error(String.format("Error copying database: %s",e.getCause().toString()));
 			}
 		}
 	}
@@ -87,7 +88,8 @@ class DataBaseHelper extends SQLiteOpenHelper {
 	 * */
 	private void copyDataBase() throws IOException{
 		//Открываем локальную БД как входящий поток
-		InputStream myInput = mContext.getAssets().open(DB_NAME);
+		
+		InputStream myInput = mContext.getAssets().open(InputDb + ".db");
 		Log.d(LOG_TAG,"myInput: " + myInput.toString());
 
 		//Путь ко вновь созданной БД
